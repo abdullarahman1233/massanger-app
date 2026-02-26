@@ -15,8 +15,11 @@ ENV NODE_ENV=production
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
-# Copy build output and migrations
+# Copy build output
 COPY --from=builder /app/dist ./dist
+
+# Copy migrations (SQL + TS files)
+COPY --from=builder /app/src/migrations ./dist/migrations
 
 EXPOSE 3001
 

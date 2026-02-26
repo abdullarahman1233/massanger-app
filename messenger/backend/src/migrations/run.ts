@@ -17,7 +17,8 @@ async function runMigrations() {
   });
 
   try {
-    const schemaPath = path.join(__dirname, 'schema.sql');
+    // Always resolve schema.sql relative to this file
+    const schemaPath = path.resolve(__dirname, 'schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf-8');
     
     console.log('Running database migrations...');
