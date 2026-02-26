@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Socket.IO client service
  * Manages real-time connection and event handling

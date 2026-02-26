@@ -16,7 +16,7 @@ export function ProfilePage() {
   const navigate = useNavigate();
   const [displayName, setDisplayName] = useState(user?.displayName || '');
   const [bio, setBio] = useState(user?.bio || '');
-  const [status, setStatus] = useState(user?.status || 'online');
+  const [status, setStatus] = useState<"online" | "away" | "busy" | "offline">(user?.status || 'online');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -77,7 +77,7 @@ export function ProfilePage() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
             <select
               value={status}
-              onChange={e => setStatus(e.target.value)}
+              onChange={e => setStatus(e.target.value as "online" | "away" | "busy" | "offline")}
               className="input"
             >
               {STATUS_OPTIONS.map(opt => (

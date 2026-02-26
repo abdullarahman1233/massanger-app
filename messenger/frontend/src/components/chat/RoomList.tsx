@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { roomApi, userApi } from '../../services/api';
-import { Room, User } from '../../types';
+import { roomApi } from '../../services/api';
+import { Room } from '../../types';
 import { getSocket } from '../../services/socket';
 import { NewConversationModal } from './NewConversationModal';
 import { formatDistanceToNow } from 'date-fns';
@@ -32,16 +32,22 @@ export function RoomList({ selectedRoomId }: RoomListProps) {
 
   const getRoomName = (room: Room) => {
     if (room.type === 'direct' && room.otherUser) {
-      return room.otherUser.display_name || room.name || 'Direct Message';
+      return room.otherUser.displayName || room.name || 'Direct Message';
     }
     return room.name || 'Group Chat';
   };
 
   const getRoomAvatar = (room: Room) => {
     if (room.type === 'direct' && room.otherUser) {
-      const name = room.otherUser.display_name || '?';
-      if (room.otherUser.avatar_url) {
-        return <img src={room.otherUser.avatar_url} alt={name} className="h-10 w-10 rounded-full object-cover" />;
+      const name = room.otherUser.displayName || '?';
+      if (room.otherUser.avatarUrl) {
+        return (
+          <img
+            src={room.otherUser.avatarUrl}
+            alt={name}
+            className="h-10 w-10 rounded-full object-cover"
+          />
+        );
       }
       return (
         <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-sm">

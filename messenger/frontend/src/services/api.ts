@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Axios API client with JWT interceptors and token refresh
  */
