@@ -18,15 +18,19 @@ export function getRedisSubscriber(): Redis {
 }
 
 export async function initializeRedis(): Promise<void> {
-  const redisConfig = {
-    host: process.env.REDIS_HOST || 'localhost',
-    port: parseInt(process.env.REDIS_PORT || '6379'),
-    password: process.env.REDIS_PASSWORD || undefined,
-    retryStrategy: (times: number) => Math.min(times * 50, 2000),
-  };
+  const url = process.env.REDIS_URL;
+  if (!url) {
+    throw new Error('REDIS_URL not set in environment');
+  }
 
-  redis = new Redis(redisConfig);
-  redisSubscriber = new Redis(redisConfig);
+  // Use the connection string directly
+  redis = new Redis(url, {
+    tls: { rejectUnauthorized: false } // Render Redis requires TLS
+  });
+
+  redisSubscriber = new Redis(url, {
+    tls: { rejectUnauthorized: false }
+  });
 
   await new Promise<void>((resolve, reject) => {
     redis.once('ready', resolve);
